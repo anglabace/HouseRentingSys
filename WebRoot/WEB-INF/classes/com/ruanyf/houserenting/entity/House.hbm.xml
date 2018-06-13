@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ruanyf.houserenting.entity.House" table="house">
+
+		<!-- 主键 -->
+		<id name="id" type="integer">
+			<!-- 生成策略为自增 -->
+			<generator class="native" />
+		</id>
+
+		<property name="title" type="string" length="128" />
+		<property name="intro" type="string" length="1024" />
+		<property name="price" type="integer" />
+		
+		<property name="rentMethod" type="string" length="32" />
+		
+		<property name="deposit" type="integer" />
+		<property name="payment" type="integer" />
+		
+		<property name="roomCount" type="integer" />
+		<property name="hallCount" type="integer" />
+		<property name="bathroomCount" type="integer" />
+		
+		<property name="province" type="string" length="64" />
+		<property name="city" type="string" length="64" />
+		<property name="county" type="string" length="64" />
+		<property name="address" type="string" length="256" />
+		
+		<property name="area" type="integer" />
+		
+		<!-- 自动生成当前时间，且修改时不更新 -->
+		<property name="publishTime" type="timestamp" generated="insert" update="false">
+			<column name="publishTime" sql-type="timestamp" default="CURRENT_TIMESTAMP"></column>
+		</property>
+		
+		<property name="status" type="integer" />
+		<property name="visitCount" type="integer" />
+
+		<!-- List属性映射 -->
+		<list name="pictures" table="house_pictures">
+			<key column="house_id" />
+			<list-index column="pic_index" />
+			<element column="pic_path" type="string" />
+		</list>
+
+		<!-- 关联关系映射 -->
+		<many-to-one name="publisher" class="com.ruanyf.houserenting.entity.User" />
+
+	</class>
+
+</hibernate-mapping>

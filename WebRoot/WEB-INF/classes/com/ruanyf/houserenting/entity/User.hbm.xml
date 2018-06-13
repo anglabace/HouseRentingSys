@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.ruanyf.houserenting.entity.User" table="user">
+
+		<!-- 主键映射 -->
+		<id name="id" column="id" type="integer">
+			<generator class="increment" />
+		</id>
+
+		<!-- <property name="username" column="username" type="string" length="16" 
+			unique="true" /> -->
+		<!-- 属性名与列名一致可省略 -->
+		<property name="username" type="string" length="16" unique="true" />
+		<property name="password" type="string" length="40" />
+		<property name="gender" type="integer" />
+		<property name="realname" type="string" length="16" />
+		<property name="phone" type="string" length="11" />
+		<property name="email" type="string" length="64" />
+		<!-- <property name="picture" type="string" length="256" /> -->
+
+		<!-- 自动生成当前时间，且修改时不更新 -->
+		<property name="registerTime" type="timestamp" generated="insert" update="false">
+			<column name="registerTime" sql-type="timestamp" default="CURRENT_TIMESTAMP"/>
+		</property>
+		
+		
+		<property name="enabled" type="boolean" />
+		<property name="admin" type="boolean" />
+
+		<!-- 关联关系映射 -->
+		<set name="houseSet" cascade="delete" inverse="true">
+			<key column="publisher"/>
+			<one-to-many class="com.ruanyf.houserenting.entity.House"/>
+		</set>		
+
+	</class>
+
+</hibernate-mapping>

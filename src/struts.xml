@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<!-- 开启使用开发模式，详细错误提示 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 指定每次请求到达，重新加载资源文件 -->
+	<constant name="struts.i18n.reload" value="true" />
+	<!-- 指定每次配置文件更改后，自动重新加载 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 指定XSLT Result使用样式表缓存 -->
+	<constant name="struts.xslt.nocache" value="true" />
+
+	<!--设置上传文件大小200MB，默认为2MB大小 -->
+	<constant name="struts.multipart.maxSize" value="209715200"></constant>
+
+	<!-- 定义一个包, 继承Struts默认包 -->
+	<package name="def" extends="struts-default" namespace="/">
+
+		<!-- 由Struts管理Action的方式 -->
+		<!-- <action name="index" class="com.ruanyf.houserenting.action.IndexAction"></action> -->
+
+		<!-- Action交由Spring管理后class只需填写bean的id -->
+		<action name="index" class="indexAction">
+			<!-- 若不设置result的name属性,则默认为success -->
+			<!-- <result>/index.jsp</result> -->
+			<result name="success">/index.jsp</result>
+		</action>
+
+		<action name="user.*" class="userAction" method="{1}">
+			<result name="success">/show_message.jsp</result>
+			<result name="profile">/user_edit_profile.jsp</result>
+		</action>
+
+		<action name="house.*" class="houseAction" method="{1}">
+			<result name="show">/house_detail.jsp</result>
+			<result name="publish" type="redirect">/house_detail.jsp</result>
+		</action>
+
+		<!-- 后台管理相关 -->
+
+		<action name="manage" class="manageAction">
+			<result name="success">/manage/index.jsp</result>
+		</action>
+		<action name="manage.*" class="manageAction" method="{1}">
+			<result name="success">/manage/index.jsp</result>
+			<result name="error">/show_message.jsp</result>
+		</action>
+
+		<action name="usermanage.*" class="userManageAction" method="{1}">
+			<result name="success">/manage/user.jsp</result>
+			<result name="findAll">/manage/user.jsp</result>
+		</action>
+
+		<action name="housemanage.*" class="houseManageAction" method="{1}">
+			<result name="success">/manage/house.jsp</result>
+			<result name="findAll">/manage/house.jsp</result>
+		</action>
+
+	</package>
+
+</struts>
